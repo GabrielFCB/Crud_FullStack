@@ -53,7 +53,8 @@ const App = () => {
     await supabase
       .from('usuarios')
       .insert({ nome: usuario.nome, idade: usuario.idade })
-    fetchUsuarios()
+    fetchUsuarios();
+    window.location.reload()
 
   }
 
@@ -93,15 +94,16 @@ const App = () => {
       .from('usuarios')
       .update({ id: usuario2.id, nome: usuario2.nome, idade: usuario2.idade })
       .eq('id', usarioId)
-      fetchUsuarios()
+    fetchUsuarios()
+    window.location.reload()
 
-      if (error) {
-        console.log(error)
-      }
-  
-      if (data) {
-        console.log(data)
-      }
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      console.log(data)
+    }
   }
 
 
@@ -109,8 +111,12 @@ const App = () => {
     <div>
 
 
+
       {/*Formulario 1*/}
-      <form onSubmit={criarUsuario}>
+      <form onSubmit={(event) => {
+        event.preventDefault(); // Evita a recarga da página
+        criarUsuario();
+      }}>
         <input
           type="text"
           placeholder='Nome'
@@ -128,7 +134,10 @@ const App = () => {
       </form>
 
       {/*Formulario 2*/}
-      <form onSubmit={()=>atualizarUsuario(usuario2.id)}>
+      <form onSubmit={(event) => {
+        event.preventDefault(); // Evita a recarga da página
+        atualizarUsuario(usuario2.id);
+      }}>
         <input
           type="text"
           name='nome'
